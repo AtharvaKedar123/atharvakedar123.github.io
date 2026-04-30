@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Project Details | Atharva Kedar</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+  <div class="animated-bg"></div>
+  <div class="cursor-glow"></div>
+
+  <div class="particles">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <h2 class="logo">Atharva Kedar<span>.</span></h2>
+
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#projects">Projects</a>
+    </div>
+  </nav>
+
+  <!-- PROJECT DETAIL -->
+  <section class="project-detail reveal">
+
+    <a class="back" href="index.html#projects">← Back to Projects</a>
+
+    <div class="detail-card">
+
+      <p id="project-category" class="tag"></p>
+
+      <h1 id="project-title"></h1>
+
+      <p id="project-description" class="premium-description"></p>
+
+      <!-- TECH STACK -->
+      <div id="tech-stack" class="badges big"></div>
+
+      <!-- METRICS -->
+      <div class="impact-grid">
+        <div class="impact-card">
+          <h3 id="metric-one">90%</h3>
+          <p>Logic Strength</p>
+        </div>
+
+        <div class="impact-card">
+          <h3 id="metric-two">85%</h3>
+          <p>Practical Value</p>
+        </div>
+
+        <div class="impact-card">
+          <h3 id="metric-three">92%</h3>
+          <p>Portfolio Impact</p>
+        </div>
+      </div>
+
+      <!-- FEATURES -->
+      <h2>Key Features</h2>
+
+      <div id="features" class="feature-grid"></div>
+
+      <!-- CHARTS -->
+      <div class="charts">
+
+        <div class="chart-box">
+          <h3>Performance Breakdown</h3>
+          <p class="chart-subtitle">
+            Interactive score comparison across strengths
+          </p>
+
+          <canvas id="barChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+          <h3>Technology Focus</h3>
+          <p class="chart-subtitle">
+            Contribution split across core areas
+          </p>
+
+          <canvas id="pieChart"></canvas>
+        </div>
+
+      </div>
+
+      <!-- GITHUB -->
+      <a id="github-link" href="#" target="_blank" class="btn primary">
+        View GitHub Repository
+      </a>
+
+    </div>
+  </section>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
