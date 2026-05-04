@@ -278,11 +278,15 @@ body {
 .about-card {
   max-width: 920px;
   margin: auto;
-  padding: 36px;
-  border-radius: 30px;
+  padding: 28px 32px; /* slightly tighter */
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.85); /* instead of dull grey */
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  backdrop-filter: blur(12px);
   color: #334155;
-  line-height: 1.9;
-  font-size: 1.08rem;
+  line-height: 1.8;
+  font-size: 1.05rem;
+  box-shadow: 0 15px 40px rgba(99, 102, 241, 0.08);
 }
 
 /* SKILLS */
