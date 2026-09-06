@@ -787,6 +787,18 @@ body {
 }
 
 
+
+/* BACKEND SKILLS EMPHASIS */
+.backend-skill-block {
+  max-width: 1080px;
+}
+
+.backend-skill-block h3 {
+  background: linear-gradient(90deg, #2563eb, #9333ea, #ec4899);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 /* EXPERIENCE */
 
 .timeline {
