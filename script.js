@@ -2,125 +2,75 @@
 const reveals = document.querySelectorAll(".reveal");
 
 function revealOnScroll() {
-
   reveals.forEach((el) => {
-
-    const top =
-      el.getBoundingClientRect().top;
+    const top = el.getBoundingClientRect().top;
 
     if (top < window.innerHeight - 90) {
-
       el.classList.add("active");
-
     }
-
   });
-
 }
 
 revealOnScroll();
-
-window.addEventListener(
-  "scroll",
-  revealOnScroll
-);
+window.addEventListener("scroll", revealOnScroll);
 
 
 // Cursor glow animation
-const cursorGlow =
-  document.querySelector(".cursor-glow");
+const cursorGlow = document.querySelector(".cursor-glow");
 
-document.addEventListener(
-  "mousemove",
-  (e) => {
-
-    if (cursorGlow) {
-
-      cursorGlow.style.left =
-        e.clientX + "px";
-
-      cursorGlow.style.top =
-        e.clientY + "px";
-
-    }
-
+document.addEventListener("mousemove", (e) => {
+  if (cursorGlow) {
+    cursorGlow.style.left = e.clientX + "px";
+    cursorGlow.style.top = e.clientY + "px";
   }
-);
+});
 
 
 // Typing animation
-const typedRole =
-  document.getElementById("typed-role");
+const typedRole = document.getElementById("typed-role");
 
 const roles = [
-
   "Backend Developer",
-
   "Python & Data Systems Engineer",
-
   "Java Core Developer",
-
   "SQL & Power BI Analyst",
-
   "Data Engineering Learner"
-
 ];
 
 let roleIndex = 0;
-
 let charIndex = 0;
-
 let deleting = false;
-
 
 function typeEffect() {
 
-  if (!typedRole)
-    return;
+  if (!typedRole) return;
 
-  const current =
-    roles[roleIndex];
-
+  const current = roles[roleIndex];
 
   if (!deleting) {
 
     typedRole.textContent =
-      current.substring(
-        0,
-        charIndex++
-      );
+      current.substring(0, charIndex++);
 
-    if (
-      charIndex >
-      current.length + 8
-    ) {
-
+    if (charIndex > current.length + 8) {
       deleting = true;
-
     }
 
-  }
-
-  else {
+  } else {
 
     typedRole.textContent =
-      current.substring(
-        0,
-        charIndex--
-      );
+      current.substring(0, charIndex--);
 
     if (charIndex === 0) {
 
       deleting = false;
 
       roleIndex =
-        (roleIndex + 1)
-        % roles.length;
+        (roleIndex + 1) % roles.length;
 
     }
 
   }
-
 
   setTimeout(
     typeEffect,
@@ -129,13 +79,11 @@ function typeEffect() {
 
 }
 
-
 typeEffect();
 
 
 // Project data
 const projects = {
-
 
   fraud: {
 
@@ -156,32 +104,18 @@ const projects = {
       "Interactive Power BI dashboard designed to monitor suspicious activity, risk patterns, KPI changes, alerts, and business-level fraud insights through clean visual analytics.",
 
     features: [
-
       "KPI tracking and fraud risk monitoring",
-
       "Interactive filters and slicers",
-
       "Conditional formatting for alert zones",
-
       "Clean business-ready dashboard layout"
-
     ],
 
     github:
       "https://github.com/AtharvaKedar123/PowerBi_Dashboards/tree/main/Inventory%20Optimization%20%26%20Demand%20Forecast%20Dashboard",
 
-    bar: [
-      88,
-      84,
-      92,
-      80
-    ],
+    bar: [88, 84, 92, 80],
 
-    pie: [
-      55,
-      30,
-      15
-    ],
+    pie: [55, 30, 15],
 
     labels: [
       "KPIs",
@@ -212,32 +146,18 @@ const projects = {
       "Java-based stock trading simulator that allows users to buy and sell stocks, track portfolio value, calculate profit/loss, and simulate real-world market movement using clean OOP design.",
 
     features: [
-
       "Buy and sell order execution",
-
       "Portfolio value tracking",
-
       "Profit and loss calculation",
-
       "Clean object-oriented architecture"
-
     ],
 
     github:
       "https://github.com/AtharvaKedar123/Java_Programming_Projects_OOP_Edition/tree/master/Real_Time_Stock_Trading_Simulator_OOP",
 
-    bar: [
-      90,
-      86,
-      88,
-      82
-    ],
+    bar: [90, 86, 88, 82],
 
-    pie: [
-      50,
-      35,
-      15
-    ],
+    pie: [50, 35, 15],
 
     labels: [
       "OOP",
@@ -268,32 +188,18 @@ const projects = {
       "High-performance Least Recently Used cache built using HashMap and Doubly Linked List to achieve O(1) time complexity for get and put operations.",
 
     features: [
-
       "O(1) get and put operations",
-
       "Efficient least-recently-used eviction policy",
-
       "HashMap and Doubly Linked List design",
-
       "Real-world caching system logic"
-
     ],
 
     github:
       "https://github.com/AtharvaKedar123/Data_structure_And_Algorithms_With_JAVA/tree/main/LRU%20Cache%20Implementation",
 
-    bar: [
-      98,
-      95,
-      90,
-      86
-    ],
+    bar: [98, 95, 90, 86],
 
-    pie: [
-      50,
-      35,
-      15
-    ],
+    pie: [50, 35, 15],
 
     labels: [
       "Performance",
@@ -324,32 +230,18 @@ const projects = {
       "Python OOP-based traffic control simulation that adjusts signal timings based on vehicle density and supports emergency vehicle priority.",
 
     features: [
-
       "Dynamic signal timing",
-
       "Emergency vehicle priority",
-
       "Sensor-based traffic monitoring",
-
       "Scalable OOP structure"
-
     ],
 
     github:
       "https://github.com/AtharvaKedar123/Python_Programming_Projects_OOP_Edition/tree/master/Smart_Traffic_System_OOP",
 
-    bar: [
-      87,
-      90,
-      80,
-      85
-    ],
+    bar: [87, 90, 80, 85],
 
-    pie: [
-      45,
-      35,
-      20
-    ],
+    pie: [45, 35, 20],
 
     labels: [
       "OOP",
@@ -370,49 +262,29 @@ const projects = {
       "Java Backend Project",
 
     tech: [
-
       "Java",
-
       "Maven",
-
       "REST API",
-
       "Telegram API",
-
       "CoinGecko API"
-
     ],
 
     description:
       "Java-based Telegram bot integrated with the CoinGecko API to retrieve real-time Bitcoin prices, with a RESTful backend for managing price alerts.",
 
     features: [
-
       "Live Bitcoin price retrieval using CoinGecko API",
-
       "Telegram command interface for price and alert management",
-
       "RESTful backend for managing Bitcoin price alerts",
-
       "Java 21 and Maven-based project structure"
-
     ],
 
     github:
       "https://github.com/AtharvaKedar123/Java_Programming_Projects_OOP_Edition/tree/master/Bitcoin%20Project",
 
-    bar: [
-      88,
-      84,
-      91,
-      79
-    ],
+    bar: [88, 84, 91, 79],
 
-    pie: [
-      50,
-      30,
-      20
-    ],
+    pie: [50, 30, 20],
 
     labels: [
       "Java",
@@ -436,10 +308,7 @@ const id =
   params.get("id");
 
 
-if (
-  id &&
-  projects[id]
-) {
+if (id && projects[id]) {
 
   const project =
     projects[id];
@@ -450,30 +319,25 @@ if (
       "project-title"
     );
 
-
   const category =
     document.getElementById(
       "project-category"
     );
-
 
   const description =
     document.getElementById(
       "project-description"
     );
 
-
   const githubLink =
     document.getElementById(
       "github-link"
     );
 
-
   const techStack =
     document.getElementById(
       "tech-stack"
     );
-
 
   const features =
     document.getElementById(
@@ -482,34 +346,23 @@ if (
 
 
   if (title) {
-
     title.textContent =
       project.title;
-
   }
-
 
   if (category) {
-
     category.textContent =
       project.category;
-
   }
-
 
   if (description) {
-
     description.textContent =
       project.description;
-
   }
 
-
   if (githubLink) {
-
     githubLink.href =
       project.github;
-
   }
 
 
@@ -517,23 +370,21 @@ if (
 
     techStack.innerHTML = "";
 
-    project.tech.forEach(
-      (item) => {
+    project.tech.forEach((item) => {
 
-        const span =
-          document.createElement(
-            "span"
-          );
-
-        span.textContent =
-          item;
-
-        techStack.appendChild(
-          span
+      const span =
+        document.createElement(
+          "span"
         );
 
-      }
-    );
+      span.textContent =
+        item;
+
+      techStack.appendChild(
+        span
+      );
+
+    });
 
   }
 
@@ -568,12 +419,10 @@ if (
       "metric-one"
     );
 
-
   const metricTwo =
     document.getElementById(
       "metric-two"
     );
-
 
   const metricThree =
     document.getElementById(
@@ -582,26 +431,18 @@ if (
 
 
   if (metricOne) {
-
     metricOne.textContent =
       project.bar[0] + "%";
-
   }
-
 
   if (metricTwo) {
-
     metricTwo.textContent =
       project.bar[1] + "%";
-
   }
 
-
   if (metricThree) {
-
     metricThree.textContent =
       project.bar[2] + "%";
-
   }
 
 
@@ -610,24 +451,19 @@ if (
       "barChart"
     );
 
-
   const pieCanvas =
     document.getElementById(
       "pieChart"
     );
 
 
-  if (
-    barCanvas &&
-    window.Chart
-  ) {
+  if (barCanvas && window.Chart) {
 
     new Chart(
       barCanvas,
       {
 
-        type:
-          "bar",
+        type: "bar",
 
         data: {
 
@@ -645,27 +481,17 @@ if (
                 project.bar,
 
               backgroundColor: [
-
                 "#2563eb",
-
                 "#9333ea",
-
                 "#ec4899",
-
                 "#22c55e"
-
               ],
 
               hoverBackgroundColor: [
-
                 "#3b82f6",
-
                 "#a855f7",
-
                 "#f472b6",
-
                 "#4ade80"
-
               ],
 
               borderRadius:
@@ -676,7 +502,6 @@ if (
           ]
 
         },
-
 
         options: {
 
@@ -703,10 +528,8 @@ if (
                   "#334155",
 
                 font: {
-
                   weight:
                     "bold"
-
                 }
 
               }
@@ -725,19 +548,15 @@ if (
                   "#334155",
 
                 font: {
-
                   weight:
                     "bold"
-
                 }
 
               },
 
               grid: {
-
                 color:
                   "rgba(148,163,184,0.18)"
-
               }
 
             },
@@ -750,19 +569,15 @@ if (
                   "#334155",
 
                 font: {
-
                   weight:
                     "bold"
-
                 }
 
               },
 
               grid: {
-
                 color:
                   "rgba(148,163,184,0.18)"
-
               }
 
             }
@@ -777,10 +592,7 @@ if (
   }
 
 
-  if (
-    pieCanvas &&
-    window.Chart
-  ) {
+  if (pieCanvas && window.Chart) {
 
     new Chart(
       pieCanvas,
@@ -792,13 +604,9 @@ if (
         data: {
 
           labels: [
-
             "Core Logic",
-
             "Insights/UI",
-
             "Optimization"
-
           ],
 
           datasets: [
@@ -809,23 +617,15 @@ if (
                 project.pie,
 
               backgroundColor: [
-
                 "#2563eb",
-
                 "#9333ea",
-
                 "#22c55e"
-
               ],
 
               hoverBackgroundColor: [
-
                 "#3b82f6",
-
                 "#a855f7",
-
                 "#4ade80"
-
               ],
 
               borderColor:
@@ -839,7 +639,6 @@ if (
           ]
 
         },
-
 
         options: {
 
@@ -866,10 +665,8 @@ if (
                   "#334155",
 
                 font: {
-
                   weight:
                     "bold"
-
                 }
 
               }
@@ -890,83 +687,57 @@ if (
 
 // Tilt animation for project cards
 document
-  .querySelectorAll(
-    ".project-card"
-  )
-  .forEach(
-    (card) => {
+  .querySelectorAll(".project-card")
+  .forEach((card) => {
 
-      card.addEventListener(
-        "mousemove",
-        (e) => {
+    card.addEventListener(
+      "mousemove",
+      (e) => {
 
-          const rect =
-            card.getBoundingClientRect();
+        const rect =
+          card.getBoundingClientRect();
 
+        const x =
+          e.clientX - rect.left;
 
-          const x =
-            e.clientX -
-            rect.left;
+        const y =
+          e.clientY - rect.top;
 
+        const rotateX =
+          ((y - rect.height / 2) / 18) * -1;
 
-          const y =
-            e.clientY -
-            rect.top;
+        const rotateY =
+          (x - rect.width / 2) / 18;
 
+        card.style.transform =
+          `translateY(-14px) scale(1.03) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
-          const rotateX =
-            (
-              (
-                y -
-                rect.height / 2
-              )
-              / 18
-            )
-            * -1;
+      }
+    );
 
 
-          const rotateY =
-            (
-              x -
-              rect.width / 2
-            )
-            / 18;
+    card.addEventListener(
+      "mouseleave",
+      () => {
 
+        card.style.transform =
+          "";
 
-          card.style.transform =
-            `translateY(-14px) scale(1.03) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      }
+    );
 
-        }
-      );
-
-
-      card.addEventListener(
-        "mouseleave",
-        () => {
-
-          card.style.transform =
-            "";
-
-        }
-      );
-
-    }
-  );
+  });
 
 
 // Small floating animation on stat cards
 document
-  .querySelectorAll(
-    ".stats div"
-  )
-  .forEach(
-    (card, index) => {
+  .querySelectorAll(".stats div")
+  .forEach((card, index) => {
 
-      card.style.animation =
-        `softFloat 4s ease-in-out ${index * 0.25}s infinite`;
+    card.style.animation =
+      `softFloat 4s ease-in-out ${index * 0.25}s infinite`;
 
-    }
-  );
+  });
 
 
 // Inject animation keyframes using JS
@@ -975,30 +746,22 @@ const style =
     "style"
   );
 
-
 style.innerHTML = `
 
 @keyframes softFloat {
 
   0%,
   100% {
-
-    transform:
-      translateY(0);
-
+    transform: translateY(0);
   }
 
   50% {
-
-    transform:
-      translateY(-8px);
-
+    transform: translateY(-8px);
   }
 
 }
 
 `;
-
 
 document.head.appendChild(
   style
@@ -1007,7 +770,5 @@ document.head.appendChild(
 
 // Icons
 if (window.lucide) {
-
   lucide.createIcons();
-
 }
