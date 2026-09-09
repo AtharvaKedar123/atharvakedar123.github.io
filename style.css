@@ -4678,3 +4678,109 @@ body.loaded .hero-metrics .metric-number {
   opacity: 0;
   transform: translate3d(0,4px,0);
 }
+
+
+/* =========================================================
+   V11 — YEAR LABELS + FINAL ULTRA-SMOOTH MOTION POLISH
+   ========================================================= */
+
+/* 2021 / 2022 use the exact same visual language as the Beatbox years. */
+.extra-leadership .champion-years,
+.extra-football .champion-years,
+.extra-beatbox .champion-years {
+  color: var(--gold);
+  font-size: .73rem;
+  line-height: 1.4;
+  letter-spacing: .12em;
+  font-weight: 800;
+}
+
+/* Keep recurring motion exclusively on compositor-friendly properties. */
+.wave-primary,
+.pulse,
+.stack-graphic b,
+.stack-graphic b::after,
+.leader-node,
+.leadership-pulse,
+.football-ball,
+.extra-waveform span {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Remove shadow work from every continuously animated object. */
+.pulse,
+.stack-graphic b::after,
+.leadership-pulse,
+.football-ball,
+.extra-waveform span {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Slow, relaxed motion reads smoother than several fast cycles at once. */
+.wave-primary {
+  animation-duration: 30s !important;
+}
+
+.pulse-a {
+  animation-duration: 5.4s !important;
+}
+
+.pulse-b {
+  animation-duration: 6.1s !important;
+}
+
+.pulse-c {
+  animation-duration: 5.8s !important;
+}
+
+.stack-graphic b,
+.stack-graphic b::after {
+  animation-duration: 4.1s !important;
+}
+
+.leader-node,
+.leadership-pulse {
+  animation-duration: 4.8s !important;
+}
+
+.football-ball {
+  animation-duration: 5.8s !important;
+}
+
+.extra-waveform span {
+  animation-duration: 1.65s !important;
+}
+
+/* Prevent accidental repaint-heavy transitions on animated cards. */
+.extracurricular-card,
+.stack-card,
+.project,
+.contact-links a {
+  transition-property: transform, opacity, border-color, background-color !important;
+}
+
+/* Slightly shorten one-time entrance animations so scrolling feels immediate. */
+.reveal {
+  transition-duration: .58s !important;
+}
+
+body.loaded .hero-enter {
+  animation-duration: .68s !important;
+}
+
+/* Preserve responsiveness and accessibility. */
+@media (prefers-reduced-motion: reduce) {
+  .wave-primary,
+  .pulse,
+  .stack-graphic b,
+  .stack-graphic b::after,
+  .leader-node,
+  .leadership-pulse,
+  .football-ball,
+  .extra-waveform span {
+    animation: none !important;
+  }
+}
