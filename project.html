@@ -3,113 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta name="theme-color" content="#f5efe5" />
   <title>Project Details | Atharva Kedar</title>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=ivory-fixed-1" />
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-
-  <div class="animated-bg"></div>
-  <div class="cursor-glow"></div>
-
-  <div class="particles">
-    <span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-ribbon ribbon-one"></div>
+    <div class="ambient-ribbon ribbon-two"></div>
+    <div class="ambient-ribbon ribbon-three"></div>
+    <div class="ambient-streak streak-one"></div>
+    <div class="ambient-streak streak-two"></div>
+    <div class="ambient-grid"></div>
+    <div class="ambient-grain"></div>
   </div>
+  <div class="cursor-glow" aria-hidden="true"></div>
 
   <nav class="navbar">
-    <h2 class="logo">Atharva Kedar<span>.</span></h2>
-
+    <a class="logo" href="index.html">Atharva <span>Kedar</span></a>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="index.html#projects">Projects</a>
       <a href="index.html#contact">Contact</a>
     </div>
+    <a class="nav-cta" href="./Atharva_Kedar_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
   </nav>
 
-  <section class="project-detail reveal">
+  <main>
+    <section class="project-detail reveal">
+      <a class="back-link" href="index.html#projects"><i data-lucide="arrow-left"></i> Back to Projects</a>
 
-    <a class="back" href="index.html#projects">
-      ← Back to Projects
-    </a>
+      <article class="detail-card">
+        <p id="project-category" class="section-kicker"></p>
+        <h1 id="project-title"></h1>
+        <p id="project-description" class="premium-description"></p>
+        <div id="tech-stack" class="badges big"></div>
 
-    <div class="detail-card">
-
-      <p id="project-category" class="tag"></p>
-
-      <h1 id="project-title"></h1>
-
-      <p id="project-description" class="premium-description"></p>
-
-      <div id="tech-stack" class="badges big"></div>
-
-      <div class="impact-grid">
-
-        <div class="impact-card">
-          <h3 id="metric-one">90%</h3>
-          <p>Logic Strength</p>
+        <div class="impact-grid">
+          <div class="impact-card card-lift"><span>Logic Strength</span><h3 id="metric-one">90%</h3></div>
+          <div class="impact-card card-lift"><span>Practical Value</span><h3 id="metric-two">85%</h3></div>
+          <div class="impact-card card-lift"><span>Portfolio Impact</span><h3 id="metric-three">92%</h3></div>
         </div>
 
-        <div class="impact-card">
-          <h3 id="metric-two">85%</h3>
-          <p>Practical Value</p>
+        <div class="detail-section-title">
+          <p class="section-kicker">Highlights</p>
+          <h2>Key Features</h2>
+        </div>
+        <div id="features" class="feature-grid"></div>
+
+        <div class="charts">
+          <div class="chart-box card-lift">
+            <div class="detail-section-title"><p class="section-kicker">Analysis</p><h3>Performance Breakdown</h3></div>
+            <canvas id="barChart"></canvas>
+          </div>
+          <div class="chart-box card-lift">
+            <div class="detail-section-title"><p class="section-kicker">Stack</p><h3>Technology Focus</h3></div>
+            <canvas id="pieChart"></canvas>
+          </div>
         </div>
 
-        <div class="impact-card">
-          <h3 id="metric-three">92%</h3>
-          <p>Portfolio Impact</p>
-        </div>
+        <a id="github-link" href="#" target="_blank" rel="noopener noreferrer" class="btn primary magnetic">
+          View GitHub Repository <i data-lucide="arrow-up-right"></i>
+        </a>
+      </article>
+    </section>
+  </main>
 
-      </div>
-
-      <h2>Key Features</h2>
-
-      <div id="features" class="feature-grid"></div>
-
-      <div class="charts">
-
-        <div class="chart-box">
-
-          <h3>Performance Breakdown</h3>
-
-          <p class="chart-subtitle">
-            Score comparison across project strengths
-          </p>
-
-          <canvas id="barChart"></canvas>
-
-        </div>
-
-        <div class="chart-box">
-
-          <h3>Technology Focus</h3>
-
-          <p class="chart-subtitle">
-            Contribution split across core areas
-          </p>
-
-          <canvas id="pieChart"></canvas>
-
-        </div>
-
-      </div>
-
-      <a id="github-link"
-         href="#"
-         target="_blank"
-         class="btn primary">
-        View GitHub Repository
-      </a>
-
-    </div>
-  </section>
+  <footer class="footer">
+    <p>© <span id="current-year"></span> Atharva Kedar</p>
+    <p>Project case study</p>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <script src="script.js?v=bitcoin-java-1"></script>
-
+  <script src="script.js?v=ivory-fixed-1"></script>
 </body>
 </html>
