@@ -1,156 +1,138 @@
-// Page ready
+
 window.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(() => document.body.classList.add('loaded'));
+
+  if (window.lucide) window.lucide.createIcons();
+
+  const year = document.getElementById('current-year');
+  if (year) year.textContent = new Date().getFullYear();
+
+  setupReveal();
+  setupProgressAndNav();
+  setupTyping();
+  setupMetricCounters();
+  setupPageVisibilityPerformance();
+  setupPerformanceVisibility();
+  setupProjectDetail();
 });
 
-// Footer year
-const year = document.getElementById('current-year');
-if (year) year.textContent = new Date().getFullYear();
+function setupReveal() {
+  const items = document.querySelectorAll('.reveal');
 
-// Scroll reveal
-const revealElements = document.querySelectorAll('.reveal');
-if ('IntersectionObserver' in window) {
-  const revealObserver = new IntersectionObserver((entries) => {
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(el => el.classList.add('active'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        revealObserver.unobserve(entry.target);
+        observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
 
-  revealElements.forEach((el) => revealObserver.observe(el));
-} else {
-  revealElements.forEach((el) => el.classList.add('active'));
+  items.forEach(el => observer.observe(el));
 }
 
-// Cursor light
-const cursorGlow = document.querySelector('.cursor-glow');
-if (cursorGlow) {
-  document.addEventListener('mousemove', (e) => {
-    cursorGlow.style.left = `${e.clientX}px`;
-    cursorGlow.style.top = `${e.clientY}px`;
-  }, { passive: true });
-  document.addEventListener('mouseleave', () => { cursorGlow.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { cursorGlow.style.opacity = '1'; });
-}
+function setupProgressAndNav() {
+  const progress = document.querySelector('.scroll-progress span');
+  const navLinks = Array.from(document.querySelectorAll('.desktop-nav a'));
+  const sectionIds = ['about', 'stack', 'experience', 'projects', 'extracurriculars', 'contact'];
+  const sections = sectionIds
+    .map((id) => ({ id, el: document.getElementById(id) }))
+    .filter((item) => item.el);
 
-// Navbar + progress + active links
-const navbar = document.querySelector('.navbar');
-const progress = document.querySelector('.scroll-progress span');
-const navAnchors = document.querySelectorAll('.nav-links a');
-const sectionIds = ['about', 'skills', 'experience', 'projects', 'contact'];
+  let sectionPositions = [];
+  let ticking = false;
+  let currentHash = '';
 
-function onScroll() {
-  const y = window.scrollY;
-  if (navbar) navbar.classList.toggle('scrolled', y > 18);
+  const measure = () => {
+    sectionPositions = sections.map(({ id, el }) => ({
+      hash: `#${id}`,
+      top: el.offsetTop
+    }));
+  };
 
-  if (progress) {
+  const render = () => {
+    ticking = false;
+
+    const y = window.scrollY;
     const doc = document.documentElement;
     const max = doc.scrollHeight - doc.clientHeight;
-    progress.style.width = `${max > 0 ? (y / max) * 100 : 0}%`;
-  }
 
-  let current = '';
-  sectionIds.forEach((id) => {
-    const section = document.getElementById(id);
-    if (section && y >= section.offsetTop - 220) current = `#${id}`;
-  });
-
-  navAnchors.forEach((a) => {
-    a.classList.toggle('active-link', a.getAttribute('href') === current);
-  });
-}
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
-
-// Typing animation
-const typedRole = document.getElementById('typed-role');
-const roles = [
-  'Java + Spring Boot',
-  'REST API Engineering',
-  'JDBC + SQL',
-  'Backend Architecture',
-  'Clean, maintainable systems'
-];
-let roleIndex = 0;
-let charIndex = 0;
-let deleting = false;
-
-function typeEffect() {
-  if (!typedRole) return;
-  const current = roles[roleIndex];
-
-  if (!deleting) {
-    typedRole.textContent = current.slice(0, charIndex++);
-    if (charIndex > current.length + 10) deleting = true;
-  } else {
-    typedRole.textContent = current.slice(0, charIndex--);
-    if (charIndex === 0) {
-      deleting = false;
-      roleIndex = (roleIndex + 1) % roles.length;
+    if (progress) {
+      progress.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
     }
-  }
-  setTimeout(typeEffect, deleting ? 42 : 72);
-}
-if (typedRole) typeEffect();
 
-// Animated statistics
-const statCards = document.querySelectorAll('.stat-card');
-if ('IntersectionObserver' in window && statCards.length) {
-  const statObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting || entry.target.dataset.animated === 'true') return;
-      entry.target.dataset.animated = 'true';
-
-      const value = Number(entry.target.dataset.count || 0);
-      const decimals = Number(entry.target.dataset.decimals || 0);
-      const suffix = entry.target.dataset.suffix || '';
-      const output = entry.target.querySelector('h2');
-      const duration = 1200;
-      const start = performance.now();
-
-      function tick(now) {
-        const progress = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = value * eased;
-        output.textContent = `${current.toFixed(decimals)}${suffix}`;
-        if (progress < 1) requestAnimationFrame(tick);
+    let nextHash = '';
+    for (let i = 0; i < sectionPositions.length; i += 1) {
+      if (y >= sectionPositions[i].top - 220) {
+        nextHash = sectionPositions[i].hash;
+      } else {
+        break;
       }
-      requestAnimationFrame(tick);
-      statObserver.unobserve(entry.target);
-    });
-  }, { threshold: 0.45 });
+    }
 
-  statCards.forEach((card) => statObserver.observe(card));
+    if (nextHash !== currentHash) {
+      currentHash = nextHash;
+      navLinks.forEach((link) => {
+        link.classList.toggle(
+          'active-link',
+          link.getAttribute('href') === currentHash
+        );
+      });
+    }
+  };
+
+  const requestRender = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(render);
+  };
+
+  measure();
+  render();
+
+  window.addEventListener('scroll', requestRender, { passive: true });
+  window.addEventListener('resize', () => {
+    measure();
+    requestRender();
+  }, { passive: true });
 }
 
-// Subtle magnetic buttons
-const magneticButtons = document.querySelectorAll('.magnetic');
-magneticButtons.forEach((button) => {
-  button.addEventListener('mousemove', (e) => {
-    const rect = button.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    button.style.transform = `translate(${x * 0.08}px, ${y * 0.12}px)`;
-  });
-  button.addEventListener('mouseleave', () => { button.style.transform = ''; });
-});
+function setupTyping() {
+  const target = document.getElementById('typed-role');
+  if (!target) return;
 
-// Project tilt — intentionally subtle for professionalism
-const cards = document.querySelectorAll('.project-card');
-cards.forEach((card) => {
-  card.addEventListener('mousemove', (e) => {
-    if (window.matchMedia('(max-width: 860px)').matches) return;
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    card.style.transform = `translateY(-9px) perspective(900px) rotateX(${(-y * 2.2).toFixed(2)}deg) rotateY(${(x * 2.6).toFixed(2)}deg)`;
-  });
-  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-});
+  const roles = [
+    'Java + Spring Boot',
+    'REST API Engineering',
+    'JDBC + SQL',
+    'Backend Architecture',
+    'Clean, maintainable systems'
+  ];
 
-// Project data
+  let roleIndex = 0;
+  target.textContent = roles[roleIndex];
+
+  const swapRole = () => {
+    target.classList.add('role-fade');
+
+    window.setTimeout(() => {
+      roleIndex = (roleIndex + 1) % roles.length;
+      target.textContent = roles[roleIndex];
+      target.classList.remove('role-fade');
+    }, 180);
+  };
+
+  window.setInterval(swapRole, 2800);
+}
+
 const projects = {
   fraud: {
     title: 'Fraud Detection & Risk Monitoring System',
@@ -164,63 +146,124 @@ const projects = {
       'Clean business-ready dashboard layout'
     ],
     github: 'https://github.com/AtharvaKedar123/PowerBi_Dashboards/tree/main/Inventory%20Optimization%20%26%20Demand%20Forecast%20Dashboard',
-    bar: [88, 84, 92, 80], pie: [55, 30, 15], labels: ['KPIs', 'Insights', 'Visuals', 'Filters']
+    scores: [
+      ['KPI Design', 88],
+      ['Business Insight', 84],
+      ['Visual Clarity', 92],
+      ['Filtering', 80]
+    ]
   },
+
   stock: {
-    title: 'Real-Time Stock Trading Simulator', category: 'Java OOP Project',
+    title: 'Real-Time Stock Trading Simulator',
+    category: 'Java OOP Project',
     tech: ['Java', 'OOP', 'Simulation', 'Trading'],
     description: 'Java-based stock trading simulator that allows users to buy and sell stocks, track portfolio value, calculate profit/loss, and simulate real-world market movement using clean OOP design.',
-    features: ['Buy and sell order execution', 'Portfolio value tracking', 'Profit and loss calculation', 'Clean object-oriented architecture'],
+    features: [
+      'Buy and sell order execution',
+      'Portfolio value tracking',
+      'Profit and loss calculation',
+      'Clean object-oriented architecture'
+    ],
     github: 'https://github.com/AtharvaKedar123/Java_Programming_Projects_OOP_Edition/tree/master/Real_Time_Stock_Trading_Simulator_OOP',
-    bar: [90, 86, 88, 82], pie: [50, 35, 15], labels: ['OOP', 'Trading', 'Analytics', 'Simulation']
+    scores: [
+      ['OOP Design', 90],
+      ['Trading Logic', 86],
+      ['Analytics', 88],
+      ['Simulation', 82]
+    ]
   },
+
   lru: {
-    title: 'LRU Cache Implementation (O(1))', category: 'Java DSA Project',
+    title: 'LRU Cache Implementation (O(1))',
+    category: 'Java DSA Project',
     tech: ['Java', 'DSA', 'HashMap', 'Doubly Linked List'],
     description: 'High-performance Least Recently Used cache built using HashMap and Doubly Linked List to achieve O(1) time complexity for get and put operations.',
-    features: ['O(1) get and put operations', 'Efficient least-recently-used eviction policy', 'HashMap and Doubly Linked List design', 'Real-world caching system logic'],
+    features: [
+      'O(1) get and put operations',
+      'Efficient least-recently-used eviction policy',
+      'HashMap and Doubly Linked List design',
+      'Real-world caching system logic'
+    ],
     github: 'https://github.com/AtharvaKedar123/Data_structure_And_Algorithms_With_JAVA/tree/main/LRU%20Cache%20Implementation',
-    bar: [98, 95, 90, 86], pie: [50, 35, 15], labels: ['Performance', 'DSA', 'Memory', 'Design']
+    scores: [
+      ['Performance', 98],
+      ['DSA Strength', 95],
+      ['Memory Logic', 90],
+      ['System Design', 86]
+    ]
   },
+
   traffic: {
-    title: 'Smart Traffic Control System', category: 'Python OOP Project',
+    title: 'Smart Traffic Control System',
+    category: 'Python OOP Project',
     tech: ['Python', 'OOP', 'Simulation', 'Automation'],
     description: 'Python OOP-based traffic control simulation that adjusts signal timings based on vehicle density and supports emergency vehicle priority.',
-    features: ['Dynamic signal timing', 'Emergency vehicle priority', 'Sensor-based traffic monitoring', 'Scalable OOP structure'],
+    features: [
+      'Dynamic signal timing',
+      'Emergency vehicle priority',
+      'Sensor-based traffic monitoring',
+      'Scalable OOP structure'
+    ],
     github: 'https://github.com/AtharvaKedar123/Python_Programming_Projects_OOP_Edition/tree/master/Smart_Traffic_System_OOP',
-    bar: [87, 90, 80, 85], pie: [45, 35, 20], labels: ['OOP', 'Logic', 'Simulation', 'Scalability']
+    scores: [
+      ['OOP Design', 87],
+      ['Decision Logic', 90],
+      ['Simulation', 80],
+      ['Scalability', 85]
+    ]
   },
+
   bot: {
-    title: 'Bitcoin Alert Bot', category: 'Java Backend Project',
+    title: 'Bitcoin Alert Bot',
+    category: 'Java Backend Project',
     tech: ['Java', 'Maven', 'REST API', 'Telegram API', 'CoinGecko API'],
     description: 'Java-based Telegram bot integrated with the CoinGecko API to retrieve real-time Bitcoin prices, with a RESTful backend for managing price alerts.',
-    features: ['Live Bitcoin price retrieval using CoinGecko API', 'Telegram command interface for price and alert management', 'RESTful backend for managing Bitcoin price alerts', 'Java 21 and Maven-based project structure'],
+    features: [
+      'Live Bitcoin price retrieval using CoinGecko API',
+      'Telegram command interface for price and alert management',
+      'RESTful backend for managing Bitcoin price alerts',
+      'Java 21 and Maven-based project structure'
+    ],
     github: 'https://github.com/AtharvaKedar123/Java_Programming_Projects_OOP_Edition/tree/master/Bitcoin%20Project',
-    bar: [88, 84, 91, 79], pie: [50, 30, 20], labels: ['Java', 'REST API', 'Telegram', 'CoinGecko']
+    scores: [
+      ['Java Backend', 88],
+      ['API Integration', 91],
+      ['Telegram Logic', 84],
+      ['Project Structure', 79]
+    ]
   }
 };
 
-const params = new URLSearchParams(window.location.search);
-const id = params.get('id');
-if (id && projects[id]) {
+function setupProjectDetail() {
+  const id = new URLSearchParams(window.location.search).get('id');
+  if (!id || !projects[id]) return;
+
   const project = projects[id];
-  const setText = (selector, text) => { const el = document.getElementById(selector); if (el) el.textContent = text; };
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+
   setText('project-title', project.title);
   setText('project-category', project.category);
   setText('project-description', project.description);
-  setText('metric-one', `${project.bar[0]}%`);
-  setText('metric-two', `${project.bar[1]}%`);
-  setText('metric-three', `${project.bar[2]}%`);
 
-  const github = document.getElementById('github-link');
-  if (github) github.href = project.github;
+  const scoreValues = project.scores.map(item => item[1]);
+  setText('metric-one', `${scoreValues[0]}%`);
+  setText('metric-two', `${scoreValues[1]}%`);
+  setText('metric-three', `${scoreValues[2]}%`);
+
+  const githubLink = document.getElementById('github-link');
+  if (githubLink) githubLink.href = project.github;
 
   const tech = document.getElementById('tech-stack');
   if (tech) {
     tech.innerHTML = '';
-    project.tech.forEach((item) => {
+    project.tech.forEach((name) => {
       const span = document.createElement('span');
-      span.textContent = item;
+      span.textContent = name;
       tech.appendChild(span);
     });
   }
@@ -228,50 +271,143 @@ if (id && projects[id]) {
   const features = document.getElementById('features');
   if (features) {
     features.innerHTML = '';
-    project.features.forEach((item) => {
+    project.features.forEach((feature) => {
       const div = document.createElement('div');
-      div.textContent = item;
+      div.textContent = feature;
       features.appendChild(div);
     });
   }
 
-  const commonOptions = {
-    responsive: true,
-    maintainAspectRatio: true,
-    animation: { duration: 1200, easing: 'easeOutQuart' },
-    plugins: {
-      legend: { labels: { color: '#41514b', font: { family: 'DM Sans', weight: '600' } } },
-      tooltip: {
-        backgroundColor: '#1d2a26', titleColor: '#ffffff', bodyColor: '#f6f0e7',
-        borderColor: 'rgba(255,255,255,.08)', borderWidth: 1, padding: 12, cornerRadius: 10
-      }
-    }
-  };
+  const bars = document.getElementById('score-bars');
+  if (bars) {
+    bars.innerHTML = '';
 
-  const bar = document.getElementById('barChart');
-  if (bar && window.Chart) {
-    new Chart(bar, {
-      type: 'bar',
-      data: { labels: project.labels, datasets: [{ label: 'Performance Score', data: project.bar, backgroundColor: ['#1f5b4d','#2e7463','#91aa9c','#c5a15a'], borderRadius: 10 }] },
-      options: {
-        ...commonOptions,
-        scales: {
-          x: { ticks: { color: '#41514b', font: { weight: '600' } }, grid: { display: false } },
-          y: { ticks: { color: '#718078' }, grid: { color: 'rgba(29,42,38,.08)' }, beginAtZero: true, suggestedMax: 100 }
-        }
-      }
+    project.scores.forEach(([label, value], index) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'score-item';
+
+      const top = document.createElement('div');
+      top.className = 'score-top';
+
+      const name = document.createElement('span');
+      name.textContent = label;
+
+      const score = document.createElement('strong');
+      score.textContent = `${value}%`;
+
+      top.appendChild(name);
+      top.appendChild(score);
+
+      const track = document.createElement('div');
+      track.className = 'score-track';
+
+      const fill = document.createElement('span');
+      track.appendChild(fill);
+
+      wrapper.appendChild(top);
+      wrapper.appendChild(track);
+      bars.appendChild(wrapper);
+
+      setTimeout(() => {
+        fill.style.width = `${value}%`;
+      }, 180 + (index * 120));
     });
   }
 
-  const pie = document.getElementById('pieChart');
-  if (pie && window.Chart) {
-    new Chart(pie, {
-      type: 'doughnut',
-      data: { labels: ['Core Logic','Insights/UI','Optimization'], datasets: [{ data: project.pie, backgroundColor: ['#1f5b4d','#91aa9c','#c5a15a'], borderColor: '#fffdf9', borderWidth: 5, hoverOffset: 8 }] },
-      options: { ...commonOptions, cutout: '64%' }
-    });
+  if (window.lucide) window.lucide.createIcons();
+}
+
+
+function setupMetricCounters() {
+  const metrics = document.querySelectorAll('.metric-number[data-value]');
+  if (!metrics.length) return;
+
+  const animateMetric = (el) => {
+    if (el.dataset.animated === 'true') return;
+    el.dataset.animated = 'true';
+
+    const target = Number(el.dataset.value || 0);
+    const decimals = Number(el.dataset.decimals || 0);
+    const suffix = el.dataset.suffix || '';
+    const duration = target >= 50 ? 1400 : 1200;
+    const startTime = performance.now();
+
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    const frame = (now) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const current = target * easeOutCubic(progress);
+
+      if (decimals > 0) {
+        el.textContent = `${current.toFixed(decimals)}${suffix}`;
+      } else {
+        el.textContent = `${Math.round(current)}${suffix}`;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        el.textContent = decimals > 0
+          ? `${target.toFixed(decimals)}${suffix}`
+          : `${Math.round(target)}${suffix}`;
+      }
+    };
+
+    requestAnimationFrame(frame);
+  };
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateMetric(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .55 });
+
+    metrics.forEach((metric) => observer.observe(metric));
+  } else {
+    metrics.forEach(animateMetric);
   }
 }
 
-// Icons
-if (window.lucide) window.lucide.createIcons();
+
+function setupPageVisibilityPerformance() {
+  const update = () => {
+    document.documentElement.classList.toggle('page-paused', document.hidden);
+  };
+
+  document.addEventListener('visibilitychange', update, { passive: true });
+  update();
+}
+
+
+function setupPerformanceVisibility() {
+  const targets = [
+    document.getElementById('home'),
+    document.getElementById('stack'),
+    document.getElementById('extracurriculars')
+  ].filter(Boolean);
+
+  if (!targets.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach((el) => el.classList.add('perf-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      entry.target.classList.toggle(
+        'perf-visible',
+        entry.isIntersecting
+      );
+    });
+  }, {
+    rootMargin: '180px 0px 180px 0px',
+    threshold: 0
+  });
+
+  targets.forEach((el) => observer.observe(el));
+}

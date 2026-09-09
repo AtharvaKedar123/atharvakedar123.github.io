@@ -3,85 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#f5efe5" />
+  <meta name="theme-color" content="#F6F0E7" />
   <title>Project Details | Atharva Kedar</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=ivory-fixed-1" />
+  <link rel="stylesheet" href="style.css?v=ultra-smooth-v10" />
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
-  <div class="ambient-bg" aria-hidden="true">
+
+  <!-- Classy Ivory animated background -->
+  <div class="background-scene" aria-hidden="true">
     <div class="ambient-ribbon ribbon-one"></div>
     <div class="ambient-ribbon ribbon-two"></div>
     <div class="ambient-ribbon ribbon-three"></div>
-    <div class="ambient-streak streak-one"></div>
-    <div class="ambient-streak streak-two"></div>
-    <div class="ambient-grid"></div>
-    <div class="ambient-grain"></div>
-  </div>
-  <div class="cursor-glow" aria-hidden="true"></div>
 
-  <nav class="navbar">
-    <a class="logo" href="index.html">Atharva <span>Kedar</span></a>
-    <div class="nav-links">
+    <div class="ambient-beam beam-one"></div>
+    <div class="ambient-beam beam-two"></div>
+
+    <div class="ambient-orbit orbit-one"></div>
+    <div class="ambient-orbit orbit-two"></div>
+
+    <div class="ambient-bubbles">
+      <span class="bg-bubble bubble-a"></span>
+      <span class="bg-bubble bubble-b"></span>
+      <span class="bg-bubble bubble-c"></span>
+      <span class="bg-bubble bubble-d"></span>
+      <span class="bg-bubble bubble-e"></span>
+      <span class="bg-bubble bubble-f"></span>
+    </div>
+
+
+    <div class="soft-light-wave wave-primary"></div>
+    <div class="soft-light-wave wave-secondary"></div>
+    <div class="ambient-mesh"></div>
+    <div class="ambient-grid"></div>
+    <div class="grain"></div>
+  </div>
+<header class="site-header">
+    <a href="index.html" class="brand">
+      <span class="brand-badge">AK</span>
+      <span class="brand-copy">
+        <strong>Atharva Kedar</strong>
+        <small>Backend Developer</small>
+      </span>
+    </a>
+
+    <nav class="desktop-nav">
       <a href="index.html">Home</a>
       <a href="index.html#projects">Projects</a>
       <a href="index.html#contact">Contact</a>
-    </div>
-    <a class="nav-cta" href="./Atharva_Kedar_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
-  </nav>
+    </nav>
+
+    <a class="resume-link" href="https://atharvakedar123.github.io/Atharva_Kedar_Resume.pdf" target="_blank" rel="noopener noreferrer">
+      Resume <i data-lucide="arrow-up-right"></i>
+    </a>
+  </header>
 
   <main>
-    <section class="project-detail reveal">
-      <a class="back-link" href="index.html#projects"><i data-lucide="arrow-left"></i> Back to Projects</a>
+    <section class="project-detail shell reveal">
+      <a class="back-link" href="index.html#projects">
+        <i data-lucide="arrow-left"></i> Back to selected work
+      </a>
 
       <article class="detail-card">
-        <p id="project-category" class="section-kicker"></p>
-        <h1 id="project-title"></h1>
-        <p id="project-description" class="premium-description"></p>
-        <div id="tech-stack" class="badges big"></div>
+        <div class="detail-header">
+          <div>
+            <p id="project-category" class="section-kicker"></p>
+            <h1 id="project-title"></h1>
+            <p id="project-description" class="premium-description"></p>
+          </div>
+
+          <div id="tech-stack" class="badges big"></div>
+        </div>
 
         <div class="impact-grid">
-          <div class="impact-card card-lift"><span>Logic Strength</span><h3 id="metric-one">90%</h3></div>
-          <div class="impact-card card-lift"><span>Practical Value</span><h3 id="metric-two">85%</h3></div>
-          <div class="impact-card card-lift"><span>Portfolio Impact</span><h3 id="metric-three">92%</h3></div>
+          <div class="impact-card"><span>Logic Strength</span><h3 id="metric-one">90%</h3></div>
+          <div class="impact-card"><span>Practical Value</span><h3 id="metric-two">85%</h3></div>
+          <div class="impact-card"><span>Portfolio Impact</span><h3 id="metric-three">92%</h3></div>
         </div>
 
-        <div class="detail-section-title">
-          <p class="section-kicker">Highlights</p>
-          <h2>Key Features</h2>
-        </div>
-        <div id="features" class="feature-grid"></div>
+        <div class="detail-layout">
+          <section>
+            <div class="detail-section-title">
+              <p class="section-kicker">HIGHLIGHTS</p>
+              <h2>Key Features</h2>
+            </div>
+            <div id="features" class="feature-grid"></div>
+          </section>
 
-        <div class="charts">
-          <div class="chart-box card-lift">
-            <div class="detail-section-title"><p class="section-kicker">Analysis</p><h3>Performance Breakdown</h3></div>
-            <canvas id="barChart"></canvas>
-          </div>
-          <div class="chart-box card-lift">
-            <div class="detail-section-title"><p class="section-kicker">Stack</p><h3>Technology Focus</h3></div>
-            <canvas id="pieChart"></canvas>
-          </div>
+          <section class="chart-shell">
+            <div class="detail-section-title">
+              <p class="section-kicker">ANALYSIS</p>
+              <h2>Project Score</h2>
+            </div>
+            <div id="score-bars" class="score-bars"></div>
+          </section>
         </div>
 
-        <a id="github-link" href="#" target="_blank" rel="noopener noreferrer" class="btn primary magnetic">
+        <a id="github-link" href="#" target="_blank" rel="noopener noreferrer" class="button button-primary">
           View GitHub Repository <i data-lucide="arrow-up-right"></i>
         </a>
       </article>
     </section>
   </main>
 
-  <footer class="footer">
+  <footer class="footer shell">
     <p>© <span id="current-year"></span> Atharva Kedar</p>
     <p>Project case study</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="script.js?v=ivory-fixed-1"></script>
+  <script src="script.js?v=ultra-smooth-v10"></script>
 </body>
 </html>
